@@ -96,13 +96,30 @@ router.patch("/:username", ensureCorrectUserOrAdmin, async function (req, res, n
  * Authorization required: admin or same-user-as-:username
  * */
 
- router.post("/:username/:moviename/:id", ensureCorrectUserOrAdmin, async function (req, res, next) {
+ router.post("/:username/:moviename/:id/add", ensureCorrectUserOrAdmin, async function (req, res, next) {
   try {
     const movie_id = req.params.id;
     const movie_name = req.params.moviename;
-    console.log(movie_id)
     await User.addToList(req.params.username, movie_name, movie_id);
     return res.json({ added: {movie_id, movie_name}});
+  } catch (err) {
+    return next(err);
+  }
+});
+
+/** POST /[username]/[moviename]/[id]  { state } => { movielist }
+ *
+ * Returns {"added": {movie_id, movie_name}}
+ *
+ * Authorization required: admin or same-user-as-:username
+ * */
+
+ router.post("/:username/:movie_name/:id/remove", ensureCorrectUserOrAdmin, async function (req, res, next) {
+  try {
+    const movie_id = req.params.id;
+    const movie_name = req.params.moviename;
+    await User.removeFromList(req.params.username, movie_id);
+    return res.json({ removed: {movie_id, movie_name}});
   } catch (err) {
     return next(err);
   }

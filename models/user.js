@@ -196,6 +196,21 @@ static async addToList(username, movie_name, movie_id) {
       [username, movie_name, movie_id]);
 }
 
+static async removeFromList(username, movie_id) {
+
+  const preCheck = await db.query(
+        `SELECT username
+         FROM users
+         WHERE username = $1`, [username]);
+  const user = preCheck.rows[0];
+
+  if (!user) throw new NotFoundError(`No username: ${username}`);
+
+  await db.query(
+        `DELETE FROM movielists WHERE username=$1 AND movie_id=$2`,
+      [username, movie_id]);
+}
+
 }
 
 
