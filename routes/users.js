@@ -119,7 +119,7 @@ router.patch("/:username", ensureCorrectUserOrAdmin, async function (req, res, n
     const movie_id = req.params.id;
     const movie_name = req.params.moviename;
     await User.removeFromList(req.params.username, movie_id);
-    return res.json({ removed: {movie_id, movie_name}});
+    return res.json({ removed: {movie_id}});
   } catch (err) {
     return next(err);
   }
