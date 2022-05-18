@@ -47,8 +47,7 @@ router.post("/", ensureAdmin, async function (req, res, next) {
 
 /** GET /[username] => { user }
  *
- * Returns { username, firstName, lastName, isAdmin, jobs }
- *   where jobs is { id, title, companyHandle, companyName, state }
+ * Returns { username, firstName, lastName, isAdmin, movilists }
  *
  * Authorization required: admin or same user-as-:username
  **/
@@ -109,7 +108,7 @@ router.patch("/:username", ensureCorrectUserOrAdmin, async function (req, res, n
 
 /** POST /[username]/[moviename]/[id]  { state } => { movielist }
  *
- * Returns {"added": {movie_id, movie_name}}
+ * Returns {"removed": {movie_id}}
  *
  * Authorization required: admin or same-user-as-:username
  * */
